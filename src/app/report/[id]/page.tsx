@@ -288,7 +288,7 @@ export default function ReportPage({ params }: { params: { id: string } }) {
           <h1 className="text-3xl font-display font-bold text-slate-900 mb-3">
             {isExistingReport ? 'Business turnaround report' : 'Australia business growth intelligence report'}
           </h1>
-          {isExistingReport && (safeReport as unknown as Record<string, unknown>)?.business_name && (
+          {isExistingReport && Boolean((safeReport as unknown as Record<string, unknown>)?.business_name) && (
             <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-1.5 text-sm font-semibold text-slate-900 shadow-sm">
               <Building2 size={14} className="text-emerald-500" />
               {String((safeReport as unknown as Record<string, unknown>).business_name)}
