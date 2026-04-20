@@ -235,6 +235,7 @@ export function buildExistingFallbackAnalysis(
     why_succeed: content.whatsWorking.slice(0, 4),
     why_fail: content.rootCauses.slice(0, 4),
     missing_elements: content.gapAnalysis.slice(0, 4),
+    opportunity_highlights: content.gapAnalysis.slice(0, 3),
     key_bottlenecks: content.rootCauses.slice(0, 4),
     fastest_growth_levers: content.top5Fixes.slice(0, 3),
     competitor_threats: content.threats,
