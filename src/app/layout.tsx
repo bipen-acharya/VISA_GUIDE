@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import './globals.css'
+import { NotificationsProvider } from '@/components/ui/notifications'
 
 export const metadata: Metadata = {
   title: {
@@ -27,7 +28,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
       <body className="min-h-screen antialiased">
-        {children}
+        <NotificationsProvider>{children}</NotificationsProvider>
       </body>
     </html>
   )
