@@ -1,4 +1,4 @@
-import OpenAI from 'openai'
+import Groq from 'groq-sdk'
 import type {
   AnalysisResult,
   NearbyCompetitorData,
@@ -12,10 +12,10 @@ import type {
 import type { ScoringOutput } from './scoring-engine'
 import { priceLevelLabel } from './utils'
 
-function getClient(): OpenAI {
-  const k = process.env.OPENAI_API_KEY
-  if (!k) throw new Error('OPENAI_API_KEY not set')
-  return new OpenAI({ apiKey: k })
+function getClient(): Groq {
+  const k = process.env.GROQ_API_KEY
+  if (!k) throw new Error('GROQ_API_KEY not set')
+  return new Groq({ apiKey: k })
 }
 
 // ── Signal-driven turnaround text ─────────────────────────────────────────────
@@ -327,8 +327,8 @@ export async function generateExistingAnalysis(
   nearby: NearbyCompetitorData | null,
   scores: ScoringOutput
 ): Promise<AnalysisResult> {
-  if (!process.env.OPENAI_API_KEY) {
-    console.warn('[openai-existing] No API key — using signal-driven fallback')
+  if (!process.env.GROQ_API_KEY) {
+    console.warn('[groq-existing] No API key — using signal-driven fallback')
     return buildExistingFallbackAnalysis(data, nearby, scores)
   }
 
@@ -444,7 +444,7 @@ Return ONLY valid JSON with this exact structure:
   try {
     const client = getClient()
     const response = await client.chat.completions.create({
-      model: 'gpt-4o-mini',
+      model: 'llama-3.3-70b-versatile',
       messages: [{ role: 'user', content: prompt }],
       response_format: { type: 'json_object' },
       temperature: 0.4,
@@ -485,7 +485,7 @@ Return ONLY valid JSON with this exact structure:
       important_assumptions: parsed.important_assumptions?.length ? parsed.important_assumptions : fallback.important_assumptions,
     }
   } catch (err) {
-    console.error('[openai-existing] OpenAI error, falling back:', err)
+    console.error('[groq-existing] Groq error, falling back:', err)
     return buildExistingFallbackAnalysis(data, nearby, scores)
   }
 }
